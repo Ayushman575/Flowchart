@@ -1,0 +1,509 @@
+flowchart.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detection System Architecture</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        .architecture {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .main-flow {
+            flex: 2;
+            min-width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .supporting-components {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2 i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+        
+        .component {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            background: #f8f9fa;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        
+        .component:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .component::before {
+            content: "";
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 10px solid #3498db;
+        }
+        
+        .component h3 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .component h3 i {
+            margin-right: 8px;
+            color: #2ecc71;
+        }
+        
+        .component p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .flow-arrow {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 24px;
+            color: #3498db;
+        }
+        
+        .phase {
+            background: #e8f4fc;
+            border-left: 5px solid #3498db;
+            padding: 18px;
+            margin: 18px 0;
+            border-radius: 5px;
+        }
+        
+        .phase-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .phase-icon {
+            background: #3498db;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        
+        .phase-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .phase-component {
+            flex: 1;
+            min-width: 200px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .phase-component h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .phase-component h4 i {
+            margin-right: 8px;
+            color: #3498db;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .tag {
+            background: #e8f4fc;
+            color: #3498db;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .footer-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .footer-content p {
+            margin-bottom: 15px;
+        }
+        
+        .highlight {
+            background: #e8f4fc;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .architecture {
+                flex-direction: column;
+            }
+            
+            .phase-content {
+                flex-direction: column;
+            }
+        }
+        
+        .print-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 12px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .print-btn:hover {
+            background: #2980b9;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            header, .main-flow, .supporting-components, footer {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            .print-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Fake News Detection System Architecture</h1>
+            <p class="subtitle">Complete Project Workflow and Components</p>
+            <p>This architecture provides a comprehensive overview of the components needed for a production-ready fake news detection system.</p>
+        </header>
+        
+        <button class="print-btn" onclick="window.print()">
+            <i class="fas fa-print"></i> Print for Presentation
+        </button>
+        
+        <div class="architecture">
+            <div class="main-flow">
+                <h2><i class="fas fa-project-diagram"></i> Main Workflow</h2>
+                
+                <div class="phase">
+                    <div class="phase-title">
+                        <div class="phase-icon">1</div>
+                        <h3>Data Collection</h3>
+                    </div>
+                    <div class="phase-content">
+                        <div class="phase-component">
+                            <h4><i class="fas fa-database"></i> CSV/Files</h4>
+                            <p>Structured datasets containing labeled news articles (real vs fake)</p>
+                            <div class="tags">
+                                <span class="tag">storage</span>
+                                <span class="tag">datasets</span>
+                                <span class="tag">collection</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                
+                <div class="phase">
+                    <div class="phase-title">
+                        <div class="phase-icon">2</div>
+                        <h3>Data Pre-processing</h3>
+                    </div>
+                    <div class="phase-content">
+                        <div class="phase-component">
+                            <h4><i class="fas fa-broom"></i> Cleaning</h4>
+                            <p>Remove noise, special characters, and irrelevant information</p>
+                            <div class="tags">
+                                <span class="tag">text processing</span>
+                                <span class="tag">normalization</span>
+                                <span class="tag">cleaning</span>
+                            </div>
+                        </div>
+                        <div class="phase-component">
+                            <h4><i class="fas fa-calculator"></i> Vectorization</h4>
+                            <p>Convert text into numerical representations</p>
+                            <div class="tags">
+                                <span class="tag">TF-IDF</span>
+                                <span class="tag">word embeddings</span>
+                                <span class="tag">vectorization</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                
+                <div class="phase">
+                    <div class="phase-title">
+                        <div class="phase-icon">3</div>
+                        <h3>Model Training & Evaluation</h3>
+                    </div>
+                    <div class="phase-content">
+                        <div class="phase-component">
+                            <h4><i class="fas fa-chart-line"></i> Logistic Regression</h4>
+                            <p>Linear model for classification tasks</p>
+                            <div class="tags">
+                                <span class="tag">supervised learning</span>
+                                <span class="tag">classification</span>
+                                <span class="tag">regression</span>
+                            </div>
+                        </div>
+                        <div class="phase-component">
+                            <h4><i class="fas fa-tree"></i> Random Forest</h4>
+                            <p>Ensemble learning method for improved accuracy</p>
+                            <div class="tags">
+                                <span class="tag">ensemble</span>
+                                <span class="tag">decision trees</span>
+                                <span class="tag">forest</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                
+                <div class="phase">
+                    <div class="phase-title">
+                        <div class="phase-icon">4</div>
+                        <h3>Deployment & Inference</h3>
+                    </div>
+                    <div class="phase-content">
+                        <div class="phase-component">
+                            <h4><i class="fas fa-server"></i> Web API</h4>
+                            <p>RESTful interface for model inference</p>
+                            <div class="tags">
+                                <span class="tag">Flask</span>
+                                <span class="tag">FastAPI</span>
+                                <span class="tag">REST</span>
+                            </div>
+                        </div>
+                        <div class="phase-component">
+                            <h4><i class="fas fa-brain"></i> Prediction Engine</h4>
+                            <p>Core system for making real-time predictions</p>
+                            <div class="tags">
+                                <span class="tag">real-time</span>
+                                <span class="tag">inference</span>
+                                <span class="tag">engine</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                
+                <div class="phase">
+                    <div class="phase-title">
+                        <div class="phase-icon">5</div>
+                        <h3>User Interface</h3>
+                    </div>
+                    <div class="phase-content">
+                        <div class="phase-component">
+                            <h4><i class="fas fa-desktop"></i> Web Application</h4>
+                            <p>Browser-based interface for users to submit articles</p>
+                            <div class="tags">
+                                <span class="tag">HTML/CSS/JS</span>
+                                <span class="tag">React</span>
+                                <span class="tag">frontend</span>
+                            </div>
+                        </div>
+                        <div class="phase-component">
+                            <h4><i class="fas fa-mobile-alt"></i> Mobile App</h4>
+                            <p>Native mobile application for on-the-go verification</p>
+                            <div class="tags">
+                                <span class="tag">iOS</span>
+                                <span class="tag">Android</span>
+                                <span class="tag">mobile</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                
+                <div class="phase">
+                    <div class="phase-title">
+                        <div class="phase-icon">6</div>
+                        <h3>Output & Reporting</h3>
+                    </div>
+                    <div class="phase-content">
+                        <div class="phase-component">
+                            <h4><i class="fas fa-check-circle"></i> Prediction Results</h4>
+                            <p>Fake/Real classification with confidence scores</p>
+                            <div class="tags">
+                                <span class="tag">binary output</span>
+                                <span class="tag">confidence</span>
+                                <span class="tag">results</span>
+                            </div>
+                        </div>
+                        <div class="phase-component">
+                            <h4><i class="fas fa-chart-bar"></i> Visualization & Reporting</h4>
+                            <p>Detailed reports and visual explanations of predictions</p>
+                            <div class="tags">
+                                <span class="tag">charts</span>
+                                <span class="tag">explanations</span>
+                                <span class="tag">reporting</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="supporting-components">
+                <h2><i class="fas fa-cogs"></i> Supporting Components</h2>
+                
+                <div class="component">
+                    <h3><i class="fas fa-sliders-h"></i> Config Management</h3>
+                    <p>Paths, constants, and environment configuration</p>
+                </div>
+                
+                <div class="component">
+                    <h3><i class="fas fa-tools"></i> Utilities</h3>
+                    <p>Text processing functions and helper utilities</p>
+                </div>
+                
+                <div class="component">
+                    <h3><i class="fas fa-hdd"></i> Model Storage</h3>
+                    <p>Joblib files for storing trained models</p>
+                </div>
+                
+                <div class="component">
+                    <h3><i class="fas fa-chart-pie"></i> Logging/Monitoring</h3>
+                    <p>Performance tracking and system monitoring</p>
+                </div>
+                
+                <div class="component">
+                    <h3><i class="fas fa-database"></i> Database</h3>
+                    <p>Storage for articles, results, and user data</p>
+                </div>
+                
+                <div class="component">
+                    <h3><i class="fas fa-user-lock"></i> Authentication</h3>
+                    <p>User management and API security</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="footer-content">
+                <p>This architecture represents a complete <span class="highlight">Fake News Detection System</span> with all necessary components for data processing, model training, and deployment.</p>
+                <p>The system follows a logical workflow from <span class="highlight">data collection</span> to <span class="highlight">prediction visualization</span>, with supporting components for production readiness.</p>
+                <p>Ideal for presentation to technical and non-technical stakeholders.</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
